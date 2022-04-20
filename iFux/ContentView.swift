@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var pixelDataStore = PixelDataStore()
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        FrameEditor().environmentObject(pixelDataStore)
     }
 }
 
