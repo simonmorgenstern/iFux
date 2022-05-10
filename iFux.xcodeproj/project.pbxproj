@@ -46,6 +46,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		49786F75282ADCB9004F9288 /* FrameEditor */ = {
+			isa = PBXGroup;
+			children = (
+				49CDAF54280FFAD50079A63A /* Models */,
+				49CDAF55280FFADB0079A63A /* Views */,
+			);
+			path = FrameEditor;
+			sourceTree = "<group>";
+		};
 		49CDAF39280FF9480079A63A = {
 			isa = PBXGroup;
 			children = (
@@ -65,9 +74,8 @@
 		49CDAF44280FF9480079A63A /* iFux */ = {
 			isa = PBXGroup;
 			children = (
-				49CDAF55280FFADB0079A63A /* Views */,
-				49CDAF54280FFAD50079A63A /* Models */,
 				49CDAF53280FFAC80079A63A /* Data */,
+				49786F75282ADCB9004F9288 /* FrameEditor */,
 				49CDAF45280FF9480079A63A /* iFuxApp.swift */,
 				49CDAF47280FF9480079A63A /* ContentView.swift */,
 				49CDAF49280FF9490079A63A /* Assets.xcassets */,
