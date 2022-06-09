@@ -10,43 +10,56 @@ import SwiftUI
 struct FrameEditorToolbar: View {
     @Binding var frame: Frame
     @State var brightnessInput = ""
+    @EnvironmentObject var websocketManager: WebsocketManager
+    
+    func sendFrameToFux() {
+        let message = frame.getPixelColorArrayString()
+        if websocketManager.webSocket?.state == .running {
+            websocketManager.sendMessage(message)
+        }
+    }
 
     var body: some View {
         VStack {
             Text("Frame Editor Einstellungen")
                 .font(.headline)
-            Divider()
-            HStack {
+            Group {
+                Divider()
                 ColorPicker("Farbauswahl", selection: $frame.currentColor)
+                VStack {
+                    Text("aktuelle Farbe")
+                    Rectangle()
+                        .fill(Color(frame.currentColor))
+                        .frame(width: 100, height: 100)
+                }
             }
-            VStack {
-                Text("aktuelle Farbe")
-                Rectangle()
-                    .fill(Color(frame.currentColor))
-                    .frame(width: 100, height: 100)
-            }
-            Divider()
-            HStack {
-                Text("Helligkeit")
-                TextField("Helligkeitswert (0 - 255)", text: $brightnessInput)
-                    .onChange(of: brightnessInput) { newValue in
-                        if !setBrightness(brightnessString: brightnessInput) {
-                            brightnessInput = String(newValue.dropLast())
+            Group {
+                Divider()
+                HStack {
+                    Text("Helligkeit")
+                    TextField("Helligkeitswert (0 - 255)", text: $brightnessInput)
+                        .onChange(of: brightnessInput) { newValue in
+                            if !setBrightness(brightnessString: brightnessInput) {
+                                brightnessInput = String(newValue.dropLast())
+                            }
                         }
-                    }
+                }
+                Slider(value: $frame.brightness, in: 0...255, step: 1) {
+                    Text("Helligkeit")
+                } minimumValueLabel: {
+                    Text("0")
+                } maximumValueLabel: {
+                    Text("255")
+                } .onChange(of: frame.brightness) { newValue in
+                    brightnessInput = String(format: "%.0f", frame.brightness)
+                }.accentColor(Color(frame.currentColor))
             }
-            Slider(value: $frame.brightness, in: 0...255, step: 1) {
-                Text("Helligkeit")
-            } minimumValueLabel: {
-                Text("0")
-            } maximumValueLabel: {
-                Text("255")
-            } .onChange(of: frame.brightness) { newValue in
-                brightnessInput = String(format: "%.0f", frame.brightness)
-            }.accentColor(Color(frame.currentColor))
             Divider()
-            HStack {
-                Toggle("Apple Pencil Modus", isOn: $frame.applePencilModus)
+            Toggle("Apple Pencil Modus", isOn: $frame.applePencilModus)
+            if websocketManager.webSocket?.state == .running {
+                Button(action: sendFrameToFux) {
+                    Text("show on fux")
+                }
             }
             Spacer()
         }
