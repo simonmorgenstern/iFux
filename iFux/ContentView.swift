@@ -9,14 +9,24 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var pixelDataStore = PixelDataStore()
-    
+    @StateObject var websocketManager = WebsocketManager()
+
     var body: some View {
-        FrameEditor().environmentObject(pixelDataStore)
+        NavigationView {
+            WebsocketTerminal()
+                .environmentObject(websocketManager)
+            FrameEditor()
+                .environmentObject(pixelDataStore)
+                .environmentObject(websocketManager)
+        }
+        
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .previewInterfaceOrientation(.landscapeRight)
+            .previewDevice("iPad Pro (11-inch) (3rd generation)")
     }
 }

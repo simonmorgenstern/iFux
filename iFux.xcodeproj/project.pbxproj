@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49786F7A282AF0ED004F9288 /* WebsocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49786F79282AF0ED004F9288 /* WebsocketManager.swift */; };
+		49786F7C282AFE56004F9288 /* WebsocketTerminal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49786F7B282AFE56004F9288 /* WebsocketTerminal.swift */; };
 		49CDAF46280FF9480079A63A /* iFuxApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CDAF45280FF9480079A63A /* iFuxApp.swift */; };
 		49CDAF48280FF9480079A63A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CDAF47280FF9480079A63A /* ContentView.swift */; };
 		49CDAF4A280FF9490079A63A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49CDAF49280FF9490079A63A /* Assets.xcassets */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		49786F79282AF0ED004F9288 /* WebsocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsocketManager.swift; sourceTree = "<group>"; };
+		49786F7B282AFE56004F9288 /* WebsocketTerminal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsocketTerminal.swift; sourceTree = "<group>"; };
 		49CDAF42280FF9480079A63A /* iFux.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iFux.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49CDAF45280FF9480079A63A /* iFuxApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iFuxApp.swift; sourceTree = "<group>"; };
 		49CDAF47280FF9480079A63A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -46,6 +50,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		49786F75282ADCB9004F9288 /* FrameEditor */ = {
+			isa = PBXGroup;
+			children = (
+				49CDAF54280FFAD50079A63A /* Models */,
+				49CDAF55280FFADB0079A63A /* Views */,
+			);
+			path = FrameEditor;
+			sourceTree = "<group>";
+		};
+		49786F76282AF09E004F9288 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				49786F78282AF0BE004F9288 /* Models */,
+				49786F77282AF0B8004F9288 /* Views */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		49786F77282AF0B8004F9288 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				49786F7B282AFE56004F9288 /* WebsocketTerminal.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		49786F78282AF0BE004F9288 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				49786F79282AF0ED004F9288 /* WebsocketManager.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		49CDAF39280FF9480079A63A = {
 			isa = PBXGroup;
 			children = (
@@ -65,9 +103,9 @@
 		49CDAF44280FF9480079A63A /* iFux */ = {
 			isa = PBXGroup;
 			children = (
-				49CDAF55280FFADB0079A63A /* Views */,
-				49CDAF54280FFAD50079A63A /* Models */,
+				49786F76282AF09E004F9288 /* Core */,
 				49CDAF53280FFAC80079A63A /* Data */,
+				49786F75282ADCB9004F9288 /* FrameEditor */,
 				49CDAF45280FF9480079A63A /* iFuxApp.swift */,
 				49CDAF47280FF9480079A63A /* ContentView.swift */,
 				49CDAF49280FF9490079A63A /* Assets.xcassets */,
@@ -185,10 +223,12 @@
 			files = (
 				49CDAF5D280FFB950079A63A /* PixelDataStore.swift in Sources */,
 				49CDAF66280FFD090079A63A /* FrameEditorToolbar.swift in Sources */,
+				49786F7A282AF0ED004F9288 /* WebsocketManager.swift in Sources */,
 				49CDAF57280FFB690079A63A /* Frame.swift in Sources */,
 				49CDAF68280FFD490079A63A /* FrameEditorPixelFux.swift in Sources */,
 				49CDAF48280FF9480079A63A /* ContentView.swift in Sources */,
 				49CDAF46280FF9480079A63A /* iFuxApp.swift in Sources */,
+				49786F7C282AFE56004F9288 /* WebsocketTerminal.swift in Sources */,
 				49CDAF63280FFCDE0079A63A /* FrameEditor.swift in Sources */,
 				49CDAF5B280FFB820079A63A /* PixelData.swift in Sources */,
 			);
