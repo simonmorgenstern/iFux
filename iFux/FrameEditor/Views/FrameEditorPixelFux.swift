@@ -11,7 +11,7 @@ struct FrameEditorPixelFux: View {
     @Binding var frame: Frame
     @EnvironmentObject var pixelDataStore: PixelDataStore
         
-    var boxSize = UIScreen.main.bounds.height
+    @State var boxSize = UIScreen.main.bounds.height * 0.9
         
     @State var scaling = 1.0
     @State var lastScalingValue = 1.0
@@ -107,7 +107,7 @@ struct FrameEditorPixelFux: View {
     var body: some View {
         ZStack {
             if let pixelData = pixelDataStore.pixelData, pixelData.count > 0 {
-                ForEach(0..<pixelData.count) { index in
+                ForEach(0..<268) { index in
                     Circle()
                         .fill(Color(frame.pixelColor[index]))
                             .frame(width: 12, height: 12)
@@ -128,9 +128,16 @@ struct FrameEditorPixelFux: View {
         .offset(x: translation.x, y: translation.y)
         .onAppear {
             scaleAndTranslate()
+            print("scale")
         }
+        .background(
+            NavBarAccessor { navBar in
+                boxSize = UIScreen.main.bounds.height * 0.9 - navBar.bounds.height
+            print("heigth: \(navBar.bounds.height)")
+            scaleAndTranslate()
+            print("scale again")
+        })
         .frame(width: boxSize, height: boxSize)
-        .background(Color.black)
         .gesture(drag)
         .simultaneousGesture(magnification)
     }

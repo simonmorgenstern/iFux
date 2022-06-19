@@ -30,3 +30,34 @@ struct ContentView_Previews: PreviewProvider {
             .previewDevice("iPad Pro (11-inch) (3rd generation)")
     }
 }
+
+/* To get the current height of navigation bar
+    code copied from https://stackoverflow.com/questions/60241552/swiftui-navigationbar-height
+  */
+
+struct NavBarAccessor: UIViewControllerRepresentable {
+    var callback: (UINavigationBar) -> Void
+    private let proxyController = ViewController()
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<NavBarAccessor>) ->
+                              UIViewController {
+        proxyController.callback = callback
+        return proxyController
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: UIViewControllerRepresentableContext<NavBarAccessor>) {
+    }
+
+    typealias UIViewControllerType = UIViewController
+
+    private class ViewController: UIViewController {
+        var callback: (UINavigationBar) -> Void = { _ in }
+
+        override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            if let navBar = self.navigationController {
+                self.callback(navBar.navigationBar)
+            }
+        }
+    }
+}

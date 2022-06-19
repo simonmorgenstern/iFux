@@ -21,7 +21,7 @@ struct FrameEditorToolbar: View {
 
     var body: some View {
         VStack {
-            Text("Frame Editor Einstellungen")
+            Text("Toolbar")
                 .font(.headline)
             Group {
                 Divider()

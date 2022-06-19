@@ -7,18 +7,19 @@
 import SwiftUI
 
 struct FrameEditor: View {
-    @State var frame = Frame(currentColor: CGColor(red: 1.0, green: 1.0, blue: 0, alpha: 1.0), applePencilModus: false, brightness: 25)
+    @State var frame: Frame
+    @EnvironmentObject var frameStore: FrameStore
     
     var body: some View {
-        HStack {
+        HStack (alignment: .top){
             FrameEditorPixelFux(frame: $frame)
             FrameEditorToolbar(frame: $frame)
+        }
+        .onDisappear {
+            frameStore.frames[frameStore.runningOrder[frameStore.activeFrame]] = frame
+        
         }
     }
 }
 
-struct FrameEditor_Previews: PreviewProvider {
-    static var previews: some View {
-        FrameEditor()
-    }
-}
+
