@@ -56,7 +56,7 @@ struct FrameEditorToolbar: View {
             }
             Divider()
             Toggle("Apple Pencil Modus", isOn: $frame.applePencilModus)
-            if websocketManager.webSocket?.state == .running {
+            if websocketManager.status == .Connected {
                 Button(action: sendFrameToFux) {
                     Text("show on fux")
                 }

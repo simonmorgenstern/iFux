@@ -20,18 +20,32 @@ struct WebsocketTerminal: View {
     }
     
     var body: some View {
-        if websocketManager.webSocket?.state == .running {
-            VStack {
-                Text("connected to fux")
+        VStack {
+            Text("fux connection")
+                .font(.title)
+            if websocketManager.status == .Connected{
+                Text("connected!")
                 Image("fux-icon")
                     .resizable()
                     .foregroundColor(.green)
                     .frame(width: 100, height: 132)
+                Button(action: {websocketManager.close()}){
+                    Text("disconnect")
+                }
+                Divider()
+                Button(action: {websocketManager.ping()}){
+                    Text("ping websocket")
+                }
+            }
+            if websocketManager.status == .ConnectionFailed{
+                Text("connection failed")
+                Button(action: {websocketManager.retryConnecting()}) {
+                    Text("try again")
+                }
             }
         }
-        if websocketManager.webSocket?.state == .none {
-            Text("fux connection")
-                .font(.title)
+        
+        if websocketManager.status == .NotConnected {
             VStack {
                 HStack {
                     IPInputField(ipInput: $first)

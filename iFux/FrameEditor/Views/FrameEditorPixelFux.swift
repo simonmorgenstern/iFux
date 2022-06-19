@@ -128,14 +128,11 @@ struct FrameEditorPixelFux: View {
         .offset(x: translation.x, y: translation.y)
         .onAppear {
             scaleAndTranslate()
-            print("scale")
         }
         .background(
             NavBarAccessor { navBar in
                 boxSize = UIScreen.main.bounds.height * 0.9 - navBar.bounds.height
-            print("heigth: \(navBar.bounds.height)")
             scaleAndTranslate()
-            print("scale again")
         })
         .frame(width: boxSize, height: boxSize)
         .gesture(drag)

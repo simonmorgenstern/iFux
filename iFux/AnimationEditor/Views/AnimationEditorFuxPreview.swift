@@ -46,6 +46,7 @@ struct AnimationEditorFuxPreview: View {
             }
             .padding()
             .offset(x: translation.x, y: translation.y)
+            .background(Color.black)
             .background(NavBarAccessor { navBar in
                 boxSize = UIScreen.main.bounds.height * 0.7 - navBar.bounds.height
                 scaleAndTranslate()

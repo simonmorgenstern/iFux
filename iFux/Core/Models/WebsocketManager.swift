@@ -7,26 +7,41 @@
 
 import Foundation
 
-
+enum ConnectionStatus {
+    case NotConnected
+    case Connecting
+    case ConnectionFailed
+    case Connected
+}
 
 class WebsocketManager: NSObject, URLSessionWebSocketDelegate, ObservableObject {
     @Published var webSocket: URLSessionWebSocketTask?
+    @Published var status: ConnectionStatus = .NotConnected
+    
     var session: URLSession?
         
     override init() {
         super.init()
-        self.session = URLSession(configuration: .default, delegate: self, delegateQueue: OperationQueue())
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 1
+        self.session = URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue())
     }
     
     func openWebsocketSession(urlString: String) {
         let url = URL(string: "ws://" + urlString)
         webSocket = session?.webSocketTask(with: url!)
         webSocket?.resume()
+        status = .Connecting
+        Thread.sleep(forTimeInterval: 1.5)
+        if webSocket?.state == .completed {
+            status = .ConnectionFailed
+        }
     }
     
     
     func close() {
         webSocket?.cancel(with: .goingAway, reason: "Demo ended".data(using: .utf8))
+        status = .NotConnected
     }
     
     func sendMessage(_ message: String) {
@@ -41,6 +56,9 @@ class WebsocketManager: NSObject, URLSessionWebSocketDelegate, ObservableObject 
         webSocket?.sendPing { error in
             if let error = error {
                 print("Ping error: \(error)")
+                DispatchQueue.main.async {
+                    self.status = .NotConnected
+                }
             }
         }
     }
@@ -48,12 +66,21 @@ class WebsocketManager: NSObject, URLSessionWebSocketDelegate, ObservableObject 
     // MARK: Delegate Handler functions for opening and closing websocket connection
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didOpenWithProtocol protocol: String?) {
         print("Did connect to socket")
+        DispatchQueue.main.async {
+            self.status = .Connected
+        }
     }
+    
     
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
         print("Did close connection with reason: \(reason?.description ?? "reason not found")")
+        DispatchQueue.main.async {
+            self.status = .NotConnected
+        }
     }
-    
-    
+        
+    func retryConnecting(){
+        status = .NotConnected
+    }
 
 }
