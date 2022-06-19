@@ -10,16 +10,35 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var pixelDataStore = PixelDataStore()
     @StateObject var websocketManager = WebsocketManager()
-
+    @State private var selectedView: String? = "AnimationEditor"
+    
     var body: some View {
         NavigationView {
-            WebsocketTerminal()
-                .environmentObject(websocketManager)
-            FrameEditor()
-                .environmentObject(pixelDataStore)
-                .environmentObject(websocketManager)
+            List {
+                NavigationLink (tag: "AnimationEditor", selection: $selectedView) {
+                    AnimationEditor()
+                        .environmentObject(pixelDataStore)
+                        .environmentObject(websocketManager)
+                        .navigationBarTitle("Animation Editor", displayMode: .inline)
+                } label: {
+                    HStack {
+                        Image(systemName: "paintbrush")
+                        Text("Animation Editor")
+                    }
+                }
+                NavigationLink (tag: "Settings", selection: $selectedView){
+                    WebsocketTerminal()
+                        .environmentObject(websocketManager)
+                        .navigationBarTitle("Settings", displayMode: .inline)
+                } label: {
+                    HStack {
+                        Image(systemName: "gear")
+                        Text("Settings")
+                    }
+                }
+            }.navigationBarTitle("iFux")
+                .listStyle(.inset)
         }
-        
     }
 }
 
