@@ -9,7 +9,7 @@ import SwiftUI
 
 
 
-struct Frame {
+struct Frame: Identifiable {
     var id = UUID().uuidString
     var pixelColor = [CGColor](repeatElement(CGColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), count: 268))
     var currentColor: CGColor
