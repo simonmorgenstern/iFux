@@ -18,6 +18,7 @@ class WebsocketManager: NSObject, URLSessionWebSocketDelegate, ObservableObject 
     @Published var webSocket: URLSessionWebSocketTask?
     @Published var status: ConnectionStatus = .NotConnected
     
+    var pingTimer: Timer?
     var session: URLSession?
         
     override init() {
@@ -28,14 +29,19 @@ class WebsocketManager: NSObject, URLSessionWebSocketDelegate, ObservableObject 
     }
     
     func openWebsocketSession(urlString: String) {
-        let url = URL(string: "ws://" + urlString)
+        let url = URL(string: "ws://" + urlString + ":80")
         webSocket = session?.webSocketTask(with: url!)
         webSocket?.resume()
         status = .Connecting
+        
         Thread.sleep(forTimeInterval: 1.5)
         if webSocket?.state == .completed {
             status = .ConnectionFailed
         }
+        pingTimer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true, block: {time in
+            self.ping()
+        })
+        
     }
     
     
@@ -58,6 +64,7 @@ class WebsocketManager: NSObject, URLSessionWebSocketDelegate, ObservableObject 
                 print("Ping error: \(error)")
                 DispatchQueue.main.async {
                     self.status = .NotConnected
+                    self.webSocket = nil
                 }
             }
         }
@@ -70,6 +77,8 @@ class WebsocketManager: NSObject, URLSessionWebSocketDelegate, ObservableObject 
             self.status = .Connected
         }
     }
+    
+
     
     
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {

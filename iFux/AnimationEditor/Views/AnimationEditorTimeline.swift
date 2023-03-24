@@ -11,12 +11,26 @@ struct AnimationEditorTimeline: View {
     let FRAME_SIZE = 100.0
     
     @EnvironmentObject var frameStore: FrameStore
+    @EnvironmentObject var pixelDataStore: PixelDataStore
     
+    @State var scaling = 0.01
+    @State var pixelSize = 2.5
+    
+    let maxPixelX: Double = 460
+    let maxPixelY: Double = 600
+    
+
+    func scale() {
+        while (maxPixelX * (scaling + 0.01) < FRAME_SIZE && maxPixelY * (scaling + 0.01) < FRAME_SIZE) {
+            scaling += 0.01
+        }
+    }
+
     
     var body: some View {
         ScrollViewReader { scrollView in
             ScrollView (.horizontal) {
-                VStack (alignment: .leading) {
+                VStack(alignment: .leading) {
                     HStack {
                         ForEach(frameStore.runningOrder.indices, id: \.self) {index in
                             Text("\(index + 1)")
@@ -36,11 +50,14 @@ struct AnimationEditorTimeline: View {
                             ForEach(frameStore.runningOrder.indices, id: \.self) { index in
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5)
-                                        .stroke(index == frameStore.activeFrame ? Color.green : Color.secondary, lineWidth: 1)
+                                        .stroke(index == frameStore.activeFrame ? Color.green : Color.secondary, lineWidth: 3)
                                         .frame(width: FRAME_SIZE, height: FRAME_SIZE)
                                         .background(.black)
-                                    Text("\(frameStore.runningOrder[index])")
-                                        .foregroundColor(.white)
+                                    if let image = frameStore.frames[frameStore.runningOrder[index]].previewImage {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .frame( width: FRAME_SIZE - 4, height: FRAME_SIZE - 4)
+                                    }
                                 }.onTapGesture() {
                                     frameStore.activeFrame = index
                                 }

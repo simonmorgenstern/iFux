@@ -10,7 +10,9 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var pixelDataStore = PixelDataStore()
     @StateObject var websocketManager = WebsocketManager()
-    @State private var selectedView: String? = "AnimationEditor"
+    @StateObject var frameStore = FrameStore()
+    @StateObject var animationStore = AnimationStore()
+    @State private var selectedView: String? = "SequenceEditor"
     
     var body: some View {
         NavigationView {
@@ -19,22 +21,43 @@ struct ContentView: View {
                     AnimationEditor()
                         .environmentObject(pixelDataStore)
                         .environmentObject(websocketManager)
+                        .environmentObject(frameStore)
                         .navigationBarTitle("Animation Editor", displayMode: .inline)
                 } label: {
-                    HStack {
-                        Image(systemName: "paintbrush")
-                        Text("Animation Editor")
-                    }
+                    Label("Animation Editor", systemImage: "paintbrush")
                 }
-                NavigationLink (tag: "Settings", selection: $selectedView){
+                NavigationLink (tag: "AnimationStore", selection: $selectedView) {
+                    AnimationBrowser(selectedView: $selectedView)
+                        .environmentObject(pixelDataStore)
+                        .environmentObject(websocketManager)
+                        .environmentObject(frameStore)
+                        .navigationBarTitle("Animation Store", displayMode: .inline)
+                } label: {
+                    Label("Animation Store", systemImage: "cart")
+                }
+                
+                NavigationLink (tag: "SequenceEditor", selection: $selectedView) {
+                    SequenceEditor()
+                        .navigationBarTitle("Sequence Editor", displayMode: .inline)
+                        .environmentObject(animationStore)
+                        .environmentObject(websocketManager)
+                } label: {
+                    Label("Sequence Editor", systemImage: "film")
+                }
+                
+                NavigationLink(tag: "SequenceStore", selection: $selectedView) {
+                    SequenceBrowser(selectedView: $selectedView)
+                        .environmentObject(animationStore)
+                } label: {
+                    Label("Sequence Store", systemImage: "cart")
+                }
+                
+                NavigationLink (tag: "Settings", selection: $selectedView) {
                     WebsocketTerminal()
                         .environmentObject(websocketManager)
                         .navigationBarTitle("Settings", displayMode: .inline)
                 } label: {
-                    HStack {
-                        Image(systemName: "gear")
-                        Text("Settings")
-                    }
+                    Label("Settings", systemImage: "gear")
                 }
             }.navigationBarTitle("iFux")
                 .listStyle(.inset)

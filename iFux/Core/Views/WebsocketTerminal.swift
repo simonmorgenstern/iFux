@@ -12,8 +12,8 @@ struct WebsocketTerminal: View {
     @EnvironmentObject var websocketManager: WebsocketManager
     @State var first = "192"
     @State var second = "168"
-    @State var third = "178"
-    @State var fourth = "82"
+    @State var third = "2"
+    @State var fourth = "102"
     
     func connectToWebsocket() {
         websocketManager.openWebsocketSession(urlString: "\(first).\(second).\(third).\(fourth)")

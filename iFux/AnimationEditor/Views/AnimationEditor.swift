@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct AnimationEditor: View {
-    @StateObject var frameStore = FrameStore()
+    @EnvironmentObject var frameStore: FrameStore
     @EnvironmentObject var pixelDataStore: PixelDataStore
     @EnvironmentObject var websocketManager: WebsocketManager
-    
+        
     var body: some View {
         VStack{
             HStack (alignment: .top){
@@ -23,11 +23,5 @@ struct AnimationEditor: View {
         .environmentObject(frameStore)
         .environmentObject(pixelDataStore)
         .environmentObject(websocketManager)
-    }
-}
-
-struct AnimationEditor_Previews: PreviewProvider {
-    static var previews: some View {
-        AnimationEditor()
     }
 }

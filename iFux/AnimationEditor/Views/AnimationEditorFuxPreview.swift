@@ -12,19 +12,24 @@ struct AnimationEditorFuxPreview: View {
     @EnvironmentObject var frameStore: FrameStore
     @EnvironmentObject var websocketManager: WebsocketManager
     
-    @State var boxSize = UIScreen.main.bounds.height * 0.7
+    @State var boxHeight = UIScreen.main.bounds.height * 0.7
+    var boxWidth = UIScreen.main.bounds.width * 2/3
+    
     let maxPixelX: Double = 460
     let maxPixelY: Double = 600
+    
+    @State var pixelSize = 12.0
+
     
     @State var scaling = 1.0
     @State private var translation: CGPoint = CGPoint(x: 0, y: 0)
 
     func scaleAndTranslate() {
-        while (maxPixelX * (scaling + 0.1) < boxSize && maxPixelY * (scaling + 0.1) < boxSize) {
+        while (maxPixelX * (scaling + 0.1) < boxWidth && maxPixelY * (scaling + 0.1) < boxHeight) {
             scaling += 0.1
         }
-        translation.x = (boxSize - maxPixelX * scaling) * 0.5
-        translation.y = (boxSize - maxPixelY * scaling) * 0.25
+        translation.x = (boxWidth - maxPixelX * scaling) * 0.5
+        translation.y = (boxHeight - maxPixelY * scaling) * 0.25
     }
 
     var body: some View {
@@ -37,10 +42,7 @@ struct AnimationEditorFuxPreview: View {
             ZStack {
                 if let pixelData = pixelDataStore.pixelData, pixelData.count > 0 {
                     ForEach(0..<268) { index in
-                        Circle()
-                            .fill(Color(frameStore.frames[frameStore.runningOrder[frameStore.activeFrame]].pixelColor[index]))
-                                .frame(width: 8, height: 8)
-                                .position(x: pixelData[index].x * scaling, y: pixelData[index].y * scaling)
+                        Pixel(color: $frameStore.frames[frameStore.runningOrder[frameStore.activeFrame]].pixelColor[index], positionX: pixelData[index].x, positionY: pixelData[index].y, scaling: $scaling, pixelSize: $pixelSize)
                         }
                     }
             }
@@ -48,13 +50,12 @@ struct AnimationEditorFuxPreview: View {
             .offset(x: translation.x, y: translation.y)
             .background(Color.black)
             .background(NavBarAccessor { navBar in
-                boxSize = UIScreen.main.bounds.height * 0.7 - navBar.bounds.height
+                boxHeight = UIScreen.main.bounds.height * 0.7 - navBar.bounds.height
                 scaleAndTranslate()
             })
             .onAppear {
                 scaleAndTranslate()
             }
-            
         }
     }
 }
