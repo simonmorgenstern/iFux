@@ -12,6 +12,7 @@ struct FrameEditorPixelFux: View {
     @EnvironmentObject var pixelDataStore: PixelDataStore
         
     @State var boxSize = UIScreen.main.bounds.height * 0.9
+    @State var navBarHeight: Double = 0
         
     @State var scaling = 1.0
     @State var lastScalingValue = 1.0
@@ -21,6 +22,7 @@ struct FrameEditorPixelFux: View {
     @GestureState private var startLocation: CGPoint? = nil
     @State private var currentPencilLocation: CGPoint? = nil
         
+    
     var maxPixelX: Double = 460
     var maxPixelY: Double = 600
     
@@ -50,7 +52,7 @@ struct FrameEditorPixelFux: View {
                 if frame.applePencilModus, let pixelData = pixelDataStore.pixelData{
                     currentPencilLocation = value.location
                     // lock fox, if pencil over pixel -> fill with current color
-                    let applePencilRect = CGRect(x: value.location.x - 9, y: value.location.y - 9, width: 18.0, height: 18.0)
+                    let applePencilRect = CGRect(x: value.location.x - 18, y: value.location.y - 18, width: 18.0, height: 18.0)
                     for i in 0..<268 {
                         let pixelRect = CGRect(x: pixelData[i].x * scaling + translation.x, y: pixelData[i].y * scaling + translation.y, width: 12.0, height: 12.0)
                         if applePencilRect.intersects(pixelRect) {
@@ -100,29 +102,26 @@ struct FrameEditorPixelFux: View {
         while (maxPixelX * (scaling + 0.1) < boxSize && maxPixelY * (scaling + 0.1) < boxSize) {
             scaling += 0.1
         }
-        translation.x = (boxSize - maxPixelX * scaling) * 0.5
-        translation.y = (boxSize - maxPixelY * scaling) * 0.25
+        translation.x = (boxSize - navBarHeight - maxPixelX * scaling) * 0.5
+        translation.y = (boxSize - navBarHeight - maxPixelY * scaling) * 0.25
     }
         
     var body: some View {
         ZStack {
             if let pixelData = pixelDataStore.pixelData, pixelData.count > 0 {
                 ForEach(0..<268) { index in
-                    Circle()
-                        .fill(Color(frame.pixelColor[index]))
-                            .frame(width: 12, height: 12)
-                            .position(x: pixelData[index].x * scaling, y: pixelData[index].y * scaling)
-                            .onTapGesture {
-                                frame.pixelColor[index] = frame.currentColor
-                            }
-                    }
+                    Pixel(color: $frame.pixelColor[index], positionX: pixelData[index].x, positionY: pixelData[index].y, scaling: $scaling, pixelSize: $frame.pixelSize)
+                        .onTapGesture {
+                            frame.pixelColor[index] = frame.currentColor
+                        }
                 }
-                if let location = currentPencilLocation, frame.applePencilModus {
-                    Circle()
-                        .fill(Color.red)
-                        .frame(width: 18, height: 18)
-                        .position(x: location.x - translation.x - 18, y: location.y - translation.y - 18)
-                }
+            }
+            if let location = currentPencilLocation, frame.applePencilModus {
+                Circle()
+                    .fill(Color.red)
+                    .frame(width: 18, height: 18)
+                    .position(x: location.x - translation.x - 18, y: location.y - translation.y - 18)
+            }
         }
         .padding()
         .offset(x: translation.x, y: translation.y)
@@ -131,13 +130,12 @@ struct FrameEditorPixelFux: View {
         }
         .background(
             NavBarAccessor { navBar in
-                boxSize = UIScreen.main.bounds.height * 0.9 - navBar.bounds.height
+                navBarHeight = navBar.bounds.height
+                // boxSize = UIScreen.main.bounds.height * 0.9 - navBar.bounds.height
             scaleAndTranslate()
         })
-        .frame(width: boxSize, height: boxSize)
+        .frame(width: boxSize - navBarHeight, height: boxSize - navBarHeight)
         .gesture(drag)
         .simultaneousGesture(magnification)
     }
 }
-
-

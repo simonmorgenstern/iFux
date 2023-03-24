@@ -16,8 +16,8 @@ struct FrameEditor: View {
             FrameEditorToolbar(frame: $frame)
         }
         .onDisappear {
+            frame.previewImage = frameStore.getPreviewImage(frame: frame)
             frameStore.frames[frameStore.runningOrder[frameStore.activeFrame]] = frame
-        
         }
     }
 }
