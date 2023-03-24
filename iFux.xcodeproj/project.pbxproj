@@ -13,7 +13,6 @@
 		4914836C2885F0C200794DA8 /* SequenceBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4914836B2885F0C200794DA8 /* SequenceBrowser.swift */; };
 		4914836E2885F12400794DA8 /* SequenceFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4914836D2885F12400794DA8 /* SequenceFileManager.swift */; };
 		4938E3CF286F27A800D3ED6E /* EditorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4938E3CE286F27A800D3ED6E /* EditorSettings.swift */; };
-		4938E3D2286F386E00D3ED6E /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4938E3D1286F386E00D3ED6E /* GameController.framework */; };
 		4944E20C28A4277B003CB344 /* PixelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944E20B28A4277B003CB344 /* PixelData.swift */; };
 		494860B429CDF7C300EDFCC3 /* pixelCoordinates.json in Resources */ = {isa = PBXBuildFile; fileRef = 494860B329CDF7C300EDFCC3 /* pixelCoordinates.json */; };
 		49621D44286CAEE0001CD52A /* FrameStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49621D43286CAEE0001CD52A /* FrameStorage.swift */; };
@@ -51,11 +50,9 @@
 		4914836D2885F12400794DA8 /* SequenceFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceFileManager.swift; sourceTree = "<group>"; };
 		4938E3CE286F27A800D3ED6E /* EditorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorSettings.swift; sourceTree = "<group>"; };
 		4944E20B28A4277B003CB344 /* PixelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelData.swift; sourceTree = "<group>"; };
-        
 		494860B329CDF7C300EDFCC3 /* pixelCoordinates.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pixelCoordinates.json; sourceTree = "<group>"; };
-        
+		494860BA29CE045F00EDFCC3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49621D43286CAEE0001CD52A /* FrameStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameStorage.swift; sourceTree = "<group>"; };
-		49621D4C286CDBEE001CD52A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		49786F79282AF0ED004F9288 /* WebsocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsocketManager.swift; sourceTree = "<group>"; };
 		49786F7B282AFE56004F9288 /* WebsocketTerminal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsocketTerminal.swift; sourceTree = "<group>"; };
 		49A967412882012000550D76 /* SequenceEditorAnimationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceEditorAnimationPicker.swift; sourceTree = "<group>"; };
@@ -152,7 +149,6 @@
 		4938E3D0286F386E00D3ED6E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4938E3D1286F386E00D3ED6E /* GameController.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -237,8 +233,8 @@
 		49CDAF44280FF9480079A63A /* iFux */ = {
 			isa = PBXGroup;
 			children = (
+				494860BA29CE045F00EDFCC3 /* Info.plist */,
 				491483682885F09C00794DA8 /* SequenceStore */,
-				49621D4C286CDBEE001CD52A /* Info.plist */,
 				490DDF6628737D150082CC50 /* SequenceEditor */,
 				49621D45286CD6C7001CD52A /* AnimationStore */,
 				49D673FB285CEF52007980B2 /* AnimationEditor */,
@@ -554,7 +550,6 @@
 				DEVELOPMENT_TEAM = FK49YDR4UM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = iFux/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -585,7 +580,6 @@
 				DEVELOPMENT_TEAM = FK49YDR4UM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = iFux/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
