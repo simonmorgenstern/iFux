@@ -1,4 +1,5 @@
 //
+//
 //  FuxController.swift
 //  iFux
 //
@@ -8,6 +9,68 @@
 import Foundation
 import Combine
 
+// MARK: - Control Mode Enum
+enum ControlMode: String, Codable, CaseIterable {
+    case random = "RANDOM"
+    case queue = "QUEUE"
+    
+    var displayName: String {
+        switch self {
+        case .random:
+            return "Random"
+        case .queue:
+            return "Queue"
+        }
+    }
+}
+
+// MARK: - Effect Model
+struct Effect: Identifiable, Codable, Equatable {
+    let id: String
+    let name: String
+    let displayName: String
+    
+    init(id: String, name: String, displayName: String) {
+        self.id = id
+        self.name = name
+        self.displayName = displayName
+    }
+    
+    init(name: String) {
+        self.id = name
+        self.name = name
+        self.displayName = name.replacingOccurrences(of: "_", with: " ").capitalized
+    }
+}
+
+// MARK: - Control State
+struct ControlState: Codable {
+    var mode: ControlMode
+    var queue: [String]
+    var currentEffect: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case mode
+        case queue
+        case currentEffect = "current_effect"
+    }
+}
+
+// MARK: - Available Effects
+extension Effect {
+    static let availableEffects: [Effect] = [
+        Effect(name: "diamond_pulse"),
+        Effect(name: "rainbow_pulse"),
+        Effect(name: "color_waves"),
+        Effect(name: "aurora")
+    ]
+    
+    static func effect(named name: String) -> Effect? {
+        return availableEffects.first { $0.name == name }
+    }
+}
+
+// MARK: - FuxController
 class FuxController: ObservableObject {
     // MARK: - Published Properties
     @Published var connectionStatus: ConnectionStatus = .NotConnected
@@ -19,8 +82,7 @@ class FuxController: ObservableObject {
     private var webSocket: URLSessionWebSocketTask?
     private var session: URLSession?
     private var pingTimer: Timer?
-    private let defaultURL = "fux.local"
-    private let fallbackURL = "192.168.1.21"
+    private let defaultURL = "192.168.1.96"
     
     // MARK: - Initialization
     init() {
@@ -32,7 +94,7 @@ class FuxController: ObservableObject {
     // MARK: - Connection Management
     func connect(urlString: String? = nil) {
         let host = urlString ?? defaultURL
-        guard let url = URL(string: "ws://\(host)/") else {
+        guard let url = URL(string: "ws://\(host):8081/") else {
             print("Invalid URL")
             connectionStatus = .ConnectionFailed
             return

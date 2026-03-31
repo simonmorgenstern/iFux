@@ -97,8 +97,8 @@ struct AnimationEditorToolbar: View {
                 Group {
                     if frameStore.editingMode {
                         HStack (alignment: .center) {
-                            if let name = frameStore.fileName {
-                                Text(name)
+                            if !frameStore.fileName.isEmpty {
+                                Text(frameStore.fileName)
                                     .font(.callout)
                                     .padding()
                                 Button(action: {

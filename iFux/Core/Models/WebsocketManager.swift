@@ -29,7 +29,7 @@ class WebsocketManager: NSObject, URLSessionWebSocketDelegate, ObservableObject 
     }
     
     func openWebsocketSession(urlString: String) {
-        let url = URL(string: "ws://" + urlString + ":80")
+        let url = URL(string: "ws://" + urlString + ":8081")
         webSocket = session?.webSocketTask(with: url!)
         webSocket?.resume()
         status = .Connecting

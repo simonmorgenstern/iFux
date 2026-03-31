@@ -185,8 +185,8 @@ struct SequenceEditorToolbar: View {
                 DisclosureGroup("Sequence Actions", isExpanded: $sequenceActionsExpanded){
                     if animationStore.editingMode {
                         HStack (alignment: .center) {
-                            if let name = animationStore.fileName {
-                                Text(name)
+                            if !animationStore.fileName.isEmpty {
+                                Text(animationStore.fileName)
                                     .font(.callout)
                                     .padding()
                                 Button(action: {

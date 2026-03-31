@@ -22,7 +22,8 @@ struct ContentView: View {
                         .environmentObject(pixelDataStore)
                         .environmentObject(websocketManager)
                         .environmentObject(frameStore)
-                        .navigationBarTitle("Animation Editor", displayMode: .inline)
+                        .navigationTitle("Animation Editor")
+                        .navigationBarTitleDisplayMode(.inline)
                 } label: {
                     Label("Animation Editor", systemImage: "paintbrush")
                 }
@@ -31,14 +32,16 @@ struct ContentView: View {
                         .environmentObject(pixelDataStore)
                         .environmentObject(websocketManager)
                         .environmentObject(frameStore)
-                        .navigationBarTitle("Animation Store", displayMode: .inline)
+                        .navigationTitle("Animation Store")
+                        .navigationBarTitleDisplayMode(.inline)
                 } label: {
                     Label("Animation Store", systemImage: "cart")
                 }
                 
                 NavigationLink (tag: "SequenceEditor", selection: $selectedView) {
                     SequenceEditor()
-                        .navigationBarTitle("Sequence Editor", displayMode: .inline)
+                        .navigationTitle("Sequence Editor")
+                        .navigationBarTitleDisplayMode(.inline)
                         .environmentObject(animationStore)
                         .environmentObject(websocketManager)
                 } label: {
@@ -52,10 +55,19 @@ struct ContentView: View {
                     Label("Sequence Store", systemImage: "cart")
                 }
                 
+                NavigationLink(tag: "EffectControl", selection: $selectedView) {
+                    EffectControlView()
+                        .navigationTitle("Effect Control")
+                        .navigationBarTitleDisplayMode(.inline)
+                } label: {
+                    Label("Effect Control", systemImage: "wand.and.stars")
+                }
+                
                 NavigationLink (tag: "Settings", selection: $selectedView) {
                     WebsocketTerminal()
                         .environmentObject(websocketManager)
-                        .navigationBarTitle("Settings", displayMode: .inline)
+                        .navigationTitle("Settings")
+                        .navigationBarTitleDisplayMode(.inline)
                 } label: {
                     Label("Settings", systemImage: "gear")
                 }

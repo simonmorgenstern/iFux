@@ -29,6 +29,12 @@
 		49CDAF63280FFCDE0079A63A /* FrameEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CDAF62280FFCDE0079A63A /* FrameEditor.swift */; };
 		49CDAF66280FFD090079A63A /* FrameEditorToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CDAF65280FFD090079A63A /* FrameEditorToolbar.swift */; };
 		49CDAF68280FFD490079A63A /* FrameEditorPixelFux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CDAF67280FFD490079A63A /* FrameEditorPixelFux.swift */; };
+		49D47B5A2F6B3903004E65AE /* EffectControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D47B592F6B3903004E65AE /* EffectControlView.swift */; };
+		49D47B5C2F6B3919004E65AE /* ControlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D47B5B2F6B3919004E65AE /* ControlModel.swift */; };
+		49D47B5E2F6B393D004E65AE /* QueueModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D47B5D2F6B393D004E65AE /* QueueModeView.swift */; };
+		49D47B612F6B3A10004E65AE /* FuxAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D47B622F6B3A10004E65AE /* FuxAPIClient.swift */; };
+		49D47B632F6B3A20004E65AE /* GIFImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D47B642F6B3A20004E65AE /* GIFImageView.swift */; };
+		49D47B602F6B39F8004E65AE /* BUILD_FIXES_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 49D47B5F2F6B39F8004E65AE /* BUILD_FIXES_SUMMARY.md */; };
 		49D67400285CEF98007980B2 /* FrameStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D673FF285CEF98007980B2 /* FrameStore.swift */; };
 		49D67404285CF387007980B2 /* AnimationEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D67403285CF387007980B2 /* AnimationEditor.swift */; };
 		49D67406285CF3E3007980B2 /* AnimationEditorTimeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D67405285CF3E3007980B2 /* AnimationEditorTimeline.swift */; };
@@ -67,6 +73,18 @@
 		49CDAF62280FFCDE0079A63A /* FrameEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameEditor.swift; sourceTree = "<group>"; };
 		49CDAF65280FFD090079A63A /* FrameEditorToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameEditorToolbar.swift; sourceTree = "<group>"; };
 		49CDAF67280FFD490079A63A /* FrameEditorPixelFux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameEditorPixelFux.swift; sourceTree = "<group>"; };
+		49D47B532F6B367B004E65AE /* ModelsControlModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelsControlModel.swift; sourceTree = "<group>"; };
+		49D47B542F6B368F004E65AE /* FuxController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuxController.swift; sourceTree = "<group>"; };
+		49D47B552F6B36C4004E65AE /* ViewsControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewsControlView.swift; sourceTree = "<group>"; };
+		49D47B562F6B36E6004E65AE /* ViewsQueueModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewsQueueModeView.swift; sourceTree = "<group>"; };
+		49D47B572F6B376B004E65AE /* TESTING_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TESTING_GUIDE.md; sourceTree = "<group>"; };
+		49D47B582F6B37D9004E65AE /* IPHONE_SETUP_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = IPHONE_SETUP_GUIDE.md; sourceTree = "<group>"; };
+		49D47B592F6B3903004E65AE /* EffectControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectControlView.swift; sourceTree = "<group>"; };
+		49D47B5B2F6B3919004E65AE /* ControlModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlModel.swift; sourceTree = "<group>"; };
+		49D47B5D2F6B393D004E65AE /* QueueModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueModeView.swift; sourceTree = "<group>"; };
+		49D47B5F2F6B39F8004E65AE /* BUILD_FIXES_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BUILD_FIXES_SUMMARY.md; sourceTree = "<group>"; };
+		49D47B622F6B3A10004E65AE /* FuxAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuxAPIClient.swift; sourceTree = "<group>"; };
+		49D47B642F6B3A20004E65AE /* GIFImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFImageView.swift; sourceTree = "<group>"; };
 		49D673FF285CEF98007980B2 /* FrameStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameStore.swift; sourceTree = "<group>"; };
 		49D67403285CF387007980B2 /* AnimationEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationEditor.swift; sourceTree = "<group>"; };
 		49D67405285CF3E3007980B2 /* AnimationEditorTimeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationEditorTimeline.swift; sourceTree = "<group>"; };
@@ -106,6 +124,7 @@
 				49D8B81E2874AF910068D5B1 /* AnimationStore.swift */,
 				49D8B8202874AFFA0068D5B1 /* Animation.swift */,
 				491483662885E50500794DA8 /* AnimationStorage.swift */,
+				49D47B622F6B3A10004E65AE /* FuxAPIClient.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -117,6 +136,11 @@
 				49D8B8242874C4FE0068D5B1 /* SequenceEditor.swift */,
 				49D8B8262874C8C70068D5B1 /* SequenceEditorToolbar.swift */,
 				49A967412882012000550D76 /* SequenceEditorAnimationPicker.swift */,
+				49D47B592F6B3903004E65AE /* EffectControlView.swift */,
+				49D47B5B2F6B3919004E65AE /* ControlModel.swift */,
+				49D47B5D2F6B393D004E65AE /* QueueModeView.swift */,
+				49D47B642F6B3A20004E65AE /* GIFImageView.swift */,
+				49D47B5F2F6B39F8004E65AE /* BUILD_FIXES_SUMMARY.md */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -219,6 +243,12 @@
 				49CDAF44280FF9480079A63A /* iFux */,
 				49CDAF43280FF9480079A63A /* Products */,
 				4938E3D0286F386E00D3ED6E /* Frameworks */,
+				49D47B532F6B367B004E65AE /* ModelsControlModel.swift */,
+				49D47B542F6B368F004E65AE /* FuxController.swift */,
+				49D47B552F6B36C4004E65AE /* ViewsControlView.swift */,
+				49D47B562F6B36E6004E65AE /* ViewsQueueModeView.swift */,
+				49D47B572F6B376B004E65AE /* TESTING_GUIDE.md */,
+				49D47B582F6B37D9004E65AE /* IPHONE_SETUP_GUIDE.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -374,6 +404,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49D47B602F6B39F8004E65AE /* BUILD_FIXES_SUMMARY.md in Resources */,
 				49CDAF4D280FF9490079A63A /* Preview Assets.xcassets in Resources */,
 				494860B429CDF7C300EDFCC3 /* pixelCoordinates.json in Resources */,
 				49CDAF4A280FF9490079A63A /* Assets.xcassets in Resources */,
@@ -387,6 +418,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49D47B5E2F6B393D004E65AE /* QueueModeView.swift in Sources */,
 				49CDAF5D280FFB950079A63A /* PixelDataStore.swift in Sources */,
 				49D8B8252874C4FE0068D5B1 /* SequenceEditor.swift in Sources */,
 				4914836E2885F12400794DA8 /* SequenceFileManager.swift in Sources */,
@@ -401,6 +433,7 @@
 				49CDAF48280FF9480079A63A /* ContentView.swift in Sources */,
 				49CDAF46280FF9480079A63A /* iFuxApp.swift in Sources */,
 				49786F7C282AFE56004F9288 /* WebsocketTerminal.swift in Sources */,
+				49D47B5A2F6B3903004E65AE /* EffectControlView.swift in Sources */,
 				490DDF6F287380DF0082CC50 /* AnimationBrowser.swift in Sources */,
 				49D67406285CF3E3007980B2 /* AnimationEditorTimeline.swift in Sources */,
 				49D67400285CEF98007980B2 /* FrameStore.swift in Sources */,
@@ -417,6 +450,9 @@
 				490DDF6D28737F3E0082CC50 /* AnimationFileManager.swift in Sources */,
 				49C4DFBC286B437000C973FA /* Pixel.swift in Sources */,
 				4938E3CF286F27A800D3ED6E /* EditorSettings.swift in Sources */,
+				49D47B5C2F6B3919004E65AE /* ControlModel.swift in Sources */,
+				49D47B612F6B3A10004E65AE /* FuxAPIClient.swift in Sources */,
+				49D47B632F6B3A20004E65AE /* GIFImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
