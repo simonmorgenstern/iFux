@@ -82,7 +82,7 @@ class FuxController: ObservableObject {
     private var webSocket: URLSessionWebSocketTask?
     private var session: URLSession?
     private var pingTimer: Timer?
-    private let defaultURL = "192.168.1.96"
+    private let defaultURL = "192.168.178.20"
     
     // MARK: - Initialization
     init() {

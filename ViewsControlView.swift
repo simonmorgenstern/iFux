@@ -104,7 +104,7 @@ struct ConnectionStatusBar: View {
     private var statusText: String {
         switch status {
         case .Connected:
-            return "Connected to 192.168.1.96"
+            return "Connected to 192.168.178.20"
         case .Connecting:
             return "Connecting..."
         case .ConnectionFailed:
@@ -164,7 +164,7 @@ struct RandomModeView: View {
 struct ConnectionSettingsSheet: View {
     @ObservedObject var controller: FuxController
     @Environment(\.dismiss) private var dismiss
-    @State private var customURL: String = "192.168.1.96"
+    @State private var customURL: String = "192.168.178.20"
     
     var body: some View {
         NavigationView {
@@ -189,8 +189,8 @@ struct ConnectionSettingsSheet: View {
                         }
                     }
                     
-                    Button("Use Default (192.168.1.96)") {
-                        customURL = "192.168.1.96"
+                    Button("Use Default (192.168.178.20)") {
+                        customURL = "192.168.178.20"
                         controller.disconnect()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                             controller.connect()

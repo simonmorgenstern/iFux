@@ -101,13 +101,19 @@ class FuxAPIClient {
     private let session: URLSession
     private let previewCache = NSCache<NSString, UIImage>()
     private var baseURL: String
+    private let cacheDirectory: URL
+    private static let cacheMaxAge: TimeInterval = 24 * 60 * 60 // 24 hours
 
-    init(host: String = "192.168.1.96", port: Int = 8080) {
+    init(host: String = FuxController.defaultHost, port: Int = 8080) {
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 10
         self.session = URLSession(configuration: config)
         self.baseURL = "http://\(host):\(port)"
         previewCache.countLimit = 50
+
+        let caches = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+        self.cacheDirectory = caches.appendingPathComponent("PreviewGIFs", isDirectory: true)
+        try? FileManager.default.createDirectory(at: cacheDirectory, withIntermediateDirectories: true)
     }
 
     func updateHost(_ host: String, port: Int = 8080) {
@@ -143,14 +149,45 @@ class FuxAPIClient {
         return try JSONDecoder().decode(APIEffect.self, from: data)
     }
 
+    // MARK: - Update Effect Parameters
+
+    func updateEffectParameters(name: String, parameters: [String: Any]) async throws -> APIEffect {
+        guard let url = URL(string: "\(baseURL)/api/effects/\(name)") else {
+            throw FuxAPIError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let body: [String: Any] = ["parameters": parameters]
+        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+
+        let (data, response) = try await session.data(for: request)
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw FuxAPIError.serverError
+        }
+        return try JSONDecoder().decode(APIEffect.self, from: data)
+    }
+
     // MARK: - Fetch Preview GIF
 
     func fetchPreview(for effectName: String) async throws -> UIImage {
         let cacheKey = NSString(string: effectName)
+
+        // 1. Check in-memory cache
         if let cached = previewCache.object(forKey: cacheKey) {
             return cached
         }
 
+        // 2. Check disk cache (valid for 24h)
+        if let diskImage = loadFromDiskCache(effectName: effectName) {
+            previewCache.setObject(diskImage, forKey: cacheKey)
+            return diskImage
+        }
+
+        // 3. Fetch from network
         guard let url = URL(string: "\(baseURL)/api/preview") else {
             throw FuxAPIError.invalidURL
         }
@@ -173,11 +210,43 @@ class FuxAPIClient {
         }
 
         previewCache.setObject(animatedImage, forKey: cacheKey)
+        saveToDiskCache(effectName: effectName, data: data)
         return animatedImage
     }
 
     func clearPreviewCache() {
         previewCache.removeAllObjects()
+        try? FileManager.default.removeItem(at: cacheDirectory)
+        try? FileManager.default.createDirectory(at: cacheDirectory, withIntermediateDirectories: true)
+    }
+
+    func invalidatePreviewCache(for effectName: String) {
+        previewCache.removeObject(forKey: NSString(string: effectName))
+        try? FileManager.default.removeItem(at: diskCacheURL(for: effectName))
+    }
+
+    // MARK: - Disk Cache
+
+    private func diskCacheURL(for effectName: String) -> URL {
+        cacheDirectory.appendingPathComponent("\(effectName).gif")
+    }
+
+    private func loadFromDiskCache(effectName: String) -> UIImage? {
+        let fileURL = diskCacheURL(for: effectName)
+        let fm = FileManager.default
+        guard fm.fileExists(atPath: fileURL.path),
+              let attrs = try? fm.attributesOfItem(atPath: fileURL.path),
+              let modDate = attrs[.modificationDate] as? Date,
+              Date().timeIntervalSince(modDate) < Self.cacheMaxAge,
+              let data = try? Data(contentsOf: fileURL) else {
+            return nil
+        }
+        return UIImage.animatedGIF(from: data)
+    }
+
+    private func saveToDiskCache(effectName: String, data: Data) {
+        let fileURL = diskCacheURL(for: effectName)
+        try? data.write(to: fileURL)
     }
 }
 

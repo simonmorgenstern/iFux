@@ -12,11 +12,19 @@ struct ContentView: View {
     @StateObject var websocketManager = WebsocketManager()
     @StateObject var frameStore = FrameStore()
     @StateObject var animationStore = AnimationStore()
-    @State private var selectedView: String? = "SequenceEditor"
-    
+    @State private var selectedView: String? = "EffectControl"
+
     var body: some View {
         NavigationView {
             List {
+                NavigationLink(tag: "EffectControl", selection: $selectedView) {
+                    EffectControlView()
+                        .navigationTitle("Effect Control")
+                        .navigationBarTitleDisplayMode(.inline)
+                } label: {
+                    Label("Effect Control", systemImage: "wand.and.stars")
+                }
+
                 NavigationLink (tag: "AnimationEditor", selection: $selectedView) {
                     AnimationEditor()
                         .environmentObject(pixelDataStore)
@@ -55,22 +63,7 @@ struct ContentView: View {
                     Label("Sequence Store", systemImage: "cart")
                 }
                 
-                NavigationLink(tag: "EffectControl", selection: $selectedView) {
-                    EffectControlView()
-                        .navigationTitle("Effect Control")
-                        .navigationBarTitleDisplayMode(.inline)
-                } label: {
-                    Label("Effect Control", systemImage: "wand.and.stars")
-                }
-                
-                NavigationLink (tag: "Settings", selection: $selectedView) {
-                    WebsocketTerminal()
-                        .environmentObject(websocketManager)
-                        .navigationTitle("Settings")
-                        .navigationBarTitleDisplayMode(.inline)
-                } label: {
-                    Label("Settings", systemImage: "gear")
-                }
+
             }.navigationBarTitle("iFux")
                 .listStyle(.inset)
         }

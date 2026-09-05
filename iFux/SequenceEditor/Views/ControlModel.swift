@@ -14,6 +14,8 @@ enum ControlMode: String, Codable, CaseIterable {
     case random = "RANDOM"
     case idle   = "IDLE"
     case queue  = "QUEUE"
+    case casino = "CASINO"
+    case music  = "MUSIC"
 
     var displayName: String {
         switch self {
@@ -21,8 +23,17 @@ enum ControlMode: String, Codable, CaseIterable {
         case .random: return "Random"
         case .idle:   return "Idle"
         case .queue:  return "Queue"
+        case .casino: return "Casino"
+        case .music:  return "Music"
         }
     }
+}
+
+// MARK: - Casino Outcome
+enum CasinoOutcome: String {
+    case red    = "RED"
+    case green  = "GREEN"
+    case black  = "BLACK"
 }
 
 // MARK: - Effect Model
@@ -70,15 +81,51 @@ struct Effect: Identifiable, Codable, Equatable {
     }
 }
 
+// MARK: - Queue Entry (matches backend QueueEntry.java serialization)
+struct QueueEntryDTO: Codable {
+    var effectName: String
+    var duration: Int?
+    var repeatCount: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case effectName
+        case duration
+        case repeatCount = "repeat"
+    }
+}
+
+// MARK: - Music State (present in STATE only while music mode has been used)
+struct MusicStateDTO: Codable {
+    /// Spotify client id/secret are present on the backend.
+    var configured: Bool
+    /// The one-time browser login has been completed.
+    var authorized: Bool
+    var polling: Bool
+    var playing: Bool
+    /// True when a tempo is known and playback is running, so effects are beat-locked.
+    var synced: Bool
+    var trackId: String?
+    var title: String?
+    var artist: String?
+    var bpm: Double?
+    var bpmSource: String?
+    /// Manual phase correction for this track, in milliseconds.
+    var offsetMs: Int
+    var beatPhase: Double
+    var positionSeconds: Double
+    var error: String?
+}
+
 // MARK: - Control State (v2 API)
 struct ControlState: Codable {
     var type: String
     var mode: ControlMode
     var currentEffect: String?
-    var queue: [String]
+    var queue: [QueueEntryDTO]
     var queueCapacity: Int?
     var timestamp: Double?
     var remainingSeconds: Double?
+    var music: MusicStateDTO?
 }
 
 // MARK: - Server Error (v2 API)
@@ -106,30 +153,46 @@ class FuxController: ObservableObject {
     @Published var remainingSeconds: Double?
     @Published var errorMessage: String?
 
+    // MARK: - Music Mode
+    @Published var music: MusicStateDTO?
+    /// Beat phase at the moment the last STATE arrived, so the UI can keep a
+    /// smooth beat indicator running between the backend's once-a-second pushes.
+    @Published var beatAnchor: (phase: Double, bpm: Double, at: Date)?
+
     // MARK: - Effects Discovery
     @Published var availableEffects: [Effect] = []
     @Published var effectsLoadingState: EffectsLoadingState = .idle
     @Published var previewImages: [String: UIImage] = [:]
     @Published var allTags: [String] = []
 
-    let apiClient = FuxAPIClient()
+    let apiClient: FuxAPIClient
+
+    // MARK: - Host Selection
+    /// Known fux backend addresses the user can switch between. First entry is the default.
+    static let knownHosts = ["192.168.1.96", "192.168.178.20"]
+    static let defaultHost = knownHosts[0]
+    private static let hostDefaultsKey = "fuxHostAddress"
+
+    @Published var savedHost: String
 
     // MARK: - Private Properties
     private var webSocket: URLSessionWebSocketTask?
     private var session: URLSession?
     private var pingTimer: Timer?
-    private let defaultURL = "192.168.1.96"
 
     // MARK: - Initialization
     init() {
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 3
         self.session = URLSession(configuration: configuration, delegate: nil, delegateQueue: OperationQueue())
+        let host = UserDefaults.standard.string(forKey: Self.hostDefaultsKey) ?? Self.defaultHost
+        self.savedHost = host
+        self.apiClient = FuxAPIClient(host: host)
     }
 
     // MARK: - Connection Management
     func connect(urlString: String? = nil) {
-        let host = urlString ?? defaultURL
+        let host = urlString ?? savedHost
         guard let url = URL(string: "ws://\(host):8081/") else {
             print("Invalid URL")
             connectionStatus = .ConnectionFailed
@@ -275,9 +338,16 @@ class FuxController: ObservableObject {
         currentMode = state.mode
         currentEffect = state.currentEffect
         remainingSeconds = state.remainingSeconds
+        music = state.music
 
-        queue = state.queue.compactMap { effectName in
-            availableEffects.first { $0.name == effectName } ?? Effect(name: effectName)
+        if let music = state.music, music.synced, let bpm = music.bpm, bpm > 0 {
+            beatAnchor = (phase: music.beatPhase, bpm: bpm, at: Date())
+        } else {
+            beatAnchor = nil
+        }
+
+        queue = state.queue.compactMap { entry in
+            availableEffects.first { $0.name == entry.effectName } ?? Effect(name: entry.effectName)
         }
     }
 
@@ -324,5 +394,49 @@ class FuxController: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.connect()
         }
+    }
+
+    /// Persists the chosen host as the default and reconnects to it.
+    func setHost(_ host: String) {
+        savedHost = host
+        UserDefaults.standard.set(host, forKey: Self.hostDefaultsKey)
+        disconnect()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.connect(urlString: host)
+        }
+    }
+
+    // MARK: - Music Mode
+
+    /// URL of the one-time Spotify authorization page served by the backend.
+    var spotifyLoginURL: URL? {
+        URL(string: "http://\(savedHost):8080/api/spotify/login")
+    }
+
+    /// Shifts the beat grid of the current track. BPM gives the period but not
+    /// the phase, so this is dialled in by eye and then remembered per track.
+    func nudgeBeatOffset(_ deltaMs: Int) {
+        sendCommand("MUSIC_OFFSET:\(deltaMs > 0 ? "+" : "")\(deltaMs)")
+        requestState()
+    }
+
+    func resetBeatOffset() {
+        sendCommand("MUSIC_OFFSET:0")
+        requestState()
+    }
+
+    /// Pins the tempo manually for a track no BPM database knows.
+    func setMusicBpm(_ bpm: Double) {
+        sendCommand("MUSIC_BPM:\(bpm)")
+        requestState()
+    }
+
+    // MARK: - Casino Mode
+    func casinoRoll() {
+        sendCommand("CASINO:ROLL")
+    }
+
+    func casinoResult(_ outcome: CasinoOutcome) {
+        sendCommand("CASINO:\(outcome.rawValue)")
     }
 }

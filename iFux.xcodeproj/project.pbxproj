@@ -19,6 +19,9 @@
 		49786F7A282AF0ED004F9288 /* WebsocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49786F79282AF0ED004F9288 /* WebsocketManager.swift */; };
 		49786F7C282AFE56004F9288 /* WebsocketTerminal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49786F7B282AFE56004F9288 /* WebsocketTerminal.swift */; };
 		49A967422882012000550D76 /* SequenceEditorAnimationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A967412882012000550D76 /* SequenceEditorAnimationPicker.swift */; };
+		49AA2FE72FBBA85700F66A13 /* casino_spin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 49AA2FE62FBBA85700F66A13 /* casino_spin.mp3 */; };
+		49AA2FE92FBBA86800F66A13 /* success.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 49AA2FE82FBBA86800F66A13 /* success.mp3 */; };
+		49AA2FEB2FBBA86D00F66A13 /* fail.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 49AA2FEA2FBBA86D00F66A13 /* fail.mp3 */; };
 		49C4DFBC286B437000C973FA /* Pixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C4DFBB286B437000C973FA /* Pixel.swift */; };
 		49CDAF46280FF9480079A63A /* iFuxApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CDAF45280FF9480079A63A /* iFuxApp.swift */; };
 		49CDAF48280FF9480079A63A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CDAF47280FF9480079A63A /* ContentView.swift */; };
@@ -32,9 +35,9 @@
 		49D47B5A2F6B3903004E65AE /* EffectControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D47B592F6B3903004E65AE /* EffectControlView.swift */; };
 		49D47B5C2F6B3919004E65AE /* ControlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D47B5B2F6B3919004E65AE /* ControlModel.swift */; };
 		49D47B5E2F6B393D004E65AE /* QueueModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D47B5D2F6B393D004E65AE /* QueueModeView.swift */; };
+		49D47B602F6B39F8004E65AE /* BUILD_FIXES_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 49D47B5F2F6B39F8004E65AE /* BUILD_FIXES_SUMMARY.md */; };
 		49D47B612F6B3A10004E65AE /* FuxAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D47B622F6B3A10004E65AE /* FuxAPIClient.swift */; };
 		49D47B632F6B3A20004E65AE /* GIFImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D47B642F6B3A20004E65AE /* GIFImageView.swift */; };
-		49D47B602F6B39F8004E65AE /* BUILD_FIXES_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 49D47B5F2F6B39F8004E65AE /* BUILD_FIXES_SUMMARY.md */; };
 		49D67400285CEF98007980B2 /* FrameStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D673FF285CEF98007980B2 /* FrameStore.swift */; };
 		49D67404285CF387007980B2 /* AnimationEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D67403285CF387007980B2 /* AnimationEditor.swift */; };
 		49D67406285CF3E3007980B2 /* AnimationEditorTimeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D67405285CF3E3007980B2 /* AnimationEditorTimeline.swift */; };
@@ -62,6 +65,9 @@
 		49786F79282AF0ED004F9288 /* WebsocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsocketManager.swift; sourceTree = "<group>"; };
 		49786F7B282AFE56004F9288 /* WebsocketTerminal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsocketTerminal.swift; sourceTree = "<group>"; };
 		49A967412882012000550D76 /* SequenceEditorAnimationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceEditorAnimationPicker.swift; sourceTree = "<group>"; };
+		49AA2FE62FBBA85700F66A13 /* casino_spin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = casino_spin.mp3; sourceTree = "<group>"; };
+		49AA2FE82FBBA86800F66A13 /* success.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = success.mp3; sourceTree = "<group>"; };
+		49AA2FEA2FBBA86D00F66A13 /* fail.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fail.mp3; sourceTree = "<group>"; };
 		49C4DFBB286B437000C973FA /* Pixel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pixel.swift; sourceTree = "<group>"; };
 		49CDAF42280FF9480079A63A /* iFux.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iFux.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49CDAF45280FF9480079A63A /* iFuxApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iFuxApp.swift; sourceTree = "<group>"; };
@@ -249,6 +255,9 @@
 				49D47B562F6B36E6004E65AE /* ViewsQueueModeView.swift */,
 				49D47B572F6B376B004E65AE /* TESTING_GUIDE.md */,
 				49D47B582F6B37D9004E65AE /* IPHONE_SETUP_GUIDE.md */,
+				49AA2FE62FBBA85700F66A13 /* casino_spin.mp3 */,
+				49AA2FE82FBBA86800F66A13 /* success.mp3 */,
+				49AA2FEA2FBBA86D00F66A13 /* fail.mp3 */,
 			);
 			sourceTree = "<group>";
 		};
@@ -407,6 +416,9 @@
 				49D47B602F6B39F8004E65AE /* BUILD_FIXES_SUMMARY.md in Resources */,
 				49CDAF4D280FF9490079A63A /* Preview Assets.xcassets in Resources */,
 				494860B429CDF7C300EDFCC3 /* pixelCoordinates.json in Resources */,
+				49AA2FEB2FBBA86D00F66A13 /* fail.mp3 in Resources */,
+				49AA2FE72FBBA85700F66A13 /* casino_spin.mp3 in Resources */,
+				49AA2FE92FBBA86800F66A13 /* success.mp3 in Resources */,
 				49CDAF4A280FF9490079A63A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
